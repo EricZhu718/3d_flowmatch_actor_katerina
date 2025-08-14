@@ -1,14 +1,14 @@
-# 3D Flow Actor: An Efficient Flow Matching 3D Policy for Bimanual and Unimanual Control
+# 3D FlowMatch Actor: Unified 3D Policy for Single- and Dual-Arm Manipulation
 By [Nikolaos Gkanatsios*](https://nickgkan.github.io/), [Jiahe Xu*](https://github.com/JiaheXu), [Matthew Bronars](https://mbronars.github.io/), [Arsalan Mousavian](https://cs.gmu.edu/~amousavi/), [Tsung-Wei Ke](https://twke18.github.io/) and [Katerina Fragkiadaki](https://www.cs.cmu.edu/~katef/)
 
 
-Official implementation of ["3D Flow Actor: An Efficient Flow Matching 3D Policy for Bimanual and Unimanual Control"](arxiv_link).
+Official implementation of ["3D FlowMatch Actor: Unified 3D Policy for Single- and Dual-Arm Manipulation"](arxiv_link).
 
 This code base also includes a faster re-implementation of [3D Diffuser Actor](https://arxiv.org/abs/2402.10885).
 
-![teaser](fig/3dfa_arch.jpg)
+![teaser](fig/diagram_gif.gif)
 
-We present 3D Flow Actor (3DFA), a 3D policy architecture for bi-manual manipulation that integrates flow matching with 3D scene representations and pretrained image encoders. 3DFA builds upon prior works in unimanual manipulation that capitalize on 3D-relative attention among action and visual tokens. The flow matching formulation, combined with system-level optimizations—including architectural refinements and efficient data chunking—achieves an over-15x speedup in both training and inference compared to prior 3D diffusion-based policies, without compromising performance. 3DFA sets a new state of the art on the PerAct2 benchmark, outperforming the previous best method by an absolute margin of 41.4%. In extensive real-world evaluations, 3DFA outperforms strong baselines with up to 1000x more parameters in controlled comparisons. Moreover, 3DFA is applicable to single-arm manipulation tasks, achieving competitive results with improved efficiency, and is also capable of predicting dense end-effector trajectories, outperforming previous state of the arts on 74 RLBench tasks. Comprehensive ablation studies are conducted to highlight the critical impact of our design choices on both policy effectiveness and computational efficiency.
+We present 3D FlowMatch Actor (3DFA), a 3D policy architecture for robot manipulation that combines flow matching for trajectory prediction with 3D pretrained visual scene representations for learning from demonstration. 3DFA leverages 3D relative attention between action and visual tokens during action denoising, building on prior work in 3D diffusion-based single-arm policy learning. Through a combination of flow matching and targeted system-level and architectural optimizations, 3DFA achieves over 30x faster training and inference than previous 3D diffusion-based policies, without sacrificing performance. On the bimanual PerAct2 benchmark, it establishes a new state of the art, outperforming the next-best method by an absolute margin of 41.4%. In extensive real-world evaluations, it surpasses strong baselines with up to 1000x more parameters and significantly more pretraining. In unimanual settings, it sets a new state of the art on 74 RLBench tasks by directly predicting dense end-effector trajectories, eliminating the need for motion planning. Comprehensive ablation studies underscore the importance of our design choices for both policy effectiveness and efficiency.
 
 
 ## Installation
@@ -23,6 +23,8 @@ Create a conda environment with the following commands:
 You're good to train a model now!
 
 ### Install RLBench (NOT needed for training)
+We recommend that you install only one RLBench per conda environment. Clone your conda environment to install a different RLBench version.
+
 Install open3d
 ```
 > pip install open3d
@@ -135,7 +137,7 @@ Since there are a lot of tasks for HiveFormer, we show how to generate the raw d
 
 
 ## PerAct2 checkpoint
-You can download a trained checkpoint [here](https://huggingface.co/katefgroup/3d_flow_actor/resolve/main/3dfa_peract2.pth).
+You can download a trained checkpoint [here](https://huggingface.co/katefgroup/3d_flowmatch_actor/resolve/main/3dfa_peract2.pth).
 
 ## Training
 ```
@@ -156,7 +158,7 @@ To run 3DDA, you can simply change the ```denoise_model``` to ```ddpm```. Note t
 NOTE: you need to change the paths to the test dataset and your checkpoint!
 
 ## Results
-3DFA achieves a new SOTA of 85.1% on PerAct2, while improving nearly 20 times the training time and the inference speed in comparison to the original 3DDA.
+3DFA achieves a new SOTA of 85.1% on PerAct2, while improving nearly 30 times the training time and the inference speed in comparison to the original 3DDA.
 ![teaser](fig/peract2.jpg)
 
 As a unimanual policy, 3DFA matches the performance of 3DDA while being much faster to train and run inference. 3DFA is also trained to predict trajectories - rather than keyposes only - and achieves a new SOTA on the 74 HiveFormer tasks, including large margins on a subset of challenging tasks that require continuous interaction with the environment.
@@ -164,17 +166,17 @@ As a unimanual policy, 3DFA matches the performance of 3DDA while being much fas
 
 ## Tips/tradeoffs for even faster training
 1. We found that reducing the batch size from 64 to 16 dramatically decreases the training time (to less 10 hours) with small performance drop. We used 64 to achieve the performance we report in the paper.
-2. Setting ```use_compile``` to ```true``` nearly doubles the training speed, but may be unstable. We found it to be more stable with DDPM, rather than Rectified Flow. More modern PyTorch versions are more stable.
+2. Setting ```use_compile``` to ```true``` nearly doubles the training speed, but may be unstable. We found it to be more stable with DDPM, rather than Rectified Flow. More modern PyTorch versions are more stable. We recommend turning this flag off on your first attempts of reproducing the results of 3DFA or when training it on a new dataset.
 3. Loading can be further sped up by rechunking the data. This reconstruct a zarr file where data is pre-batched. This reduces the diversity in each batch but runs faster. We found no statistically significant performance difference with ```chunk_size=1```, but we used ```chunk_size=1``` for the paper results. See ```data_packaging/rechunk.py``` and then change the argument ```chunk_size``` in the training scripts.
 
 Combining the above may allow for training 3DFA/3DDA in less than 6 hours, however the performance may be a bit lower. We have not thoroughly ablated all these tradeoffs. In the paper we report the conservative runtime of the model that achieves the SOTA performance.
 
 ## Citation
-If you find this code useful for your research, please consider citing our paper ["3D Flow Actor: An Efficient Flow Matching 3D Policy for Bimanual and Unimanual Control"](arxiv_link).
+If you find this code useful for your research, please consider citing our paper ["3D FlowMatch Actor: Unified 3D Policy for Single- and Dual-Arm Manipulation"](arxiv_link).
 ```
-@article{3d_flow_actor,
+@article{3d_flowmatch_actor,
   author = {Gkanatsios, Nikolaos and Xu, Jiahe and Bronars, Matthew and Mousavian, Arsalan and Ke, Tsung-Wei and Fragkiadaki, Katerina},
-  title = {3D Flow Actor: An Efficient Flow Matching 3D Policy for Bimanual and Unimanual Control},
+  title = {3D FlowMatch Actor: Unified 3D Policy for Single- and Dual-Arm Manipulation},
   journal = {Arxiv},
   year = {2025}
 }
