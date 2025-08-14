@@ -166,7 +166,7 @@ As a unimanual policy, 3DFA matches the performance of 3DDA while being much fas
 
 ## Tips/tradeoffs for even faster training
 1. We found that reducing the batch size from 64 to 16 dramatically decreases the training time (to less 10 hours) with small performance drop. We used 64 to achieve the performance we report in the paper.
-2. Setting ```use_compile``` to ```true``` nearly doubles the training speed, but may be unstable. We found it to be more stable with DDPM, rather than Rectified Flow. More modern PyTorch versions are more stable. We recommend turning this flag off on your first attempts of reproducing the results of 3DFA or when training it on a new dataset.
+2. Setting ```use_compile``` to ```true``` nearly doubles the training speed, but may be unstable. We found it to be more stable with DDPM, rather than Flow Matching. More modern PyTorch versions are more stable. We recommend turning this flag off on your first attempts of reproducing the results of 3DFA or when training it on a new dataset.
 3. Loading can be further sped up by rechunking the data. This reconstruct a zarr file where data is pre-batched. This reduces the diversity in each batch but runs faster. We found no statistically significant performance difference with ```chunk_size=1```, but we used ```chunk_size=1``` for the paper results. See ```data_packaging/rechunk.py``` and then change the argument ```chunk_size``` in the training scripts.
 
 Combining the above may allow for training 3DFA/3DDA in less than 6 hours, however the performance may be a bit lower. We have not thoroughly ablated all these tradeoffs. In the paper we report the conservative runtime of the model that achieves the SOTA performance.

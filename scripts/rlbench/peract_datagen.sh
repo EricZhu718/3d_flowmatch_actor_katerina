@@ -13,7 +13,7 @@ rm Peract_packaged.zip
 
 # We need the test seeds - yes, nothing else is needed for the test set
 # Download them
-wget https://huggingface.co/katefgroup/3d_flow_actor/resolve/main/peract_test.zip
+wget https://huggingface.co/katefgroup/3d_flowmatch_actor/resolve/main/peract_test.zip
 unzip peract_test.zip
 rm peract_test.zip
 mv ${DATA_PATH}/peract_test ${DATA_PATH}/test

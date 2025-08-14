@@ -7,7 +7,7 @@ python scripts/rlbench/download_peract2.py --root ${DATA_PATH}
 # Download the test seeds
 CURR_DIR=$(pwd)
 cd ${DATA_PATH}
-wget https://huggingface.co/katefgroup/3d_flow_actor/resolve/main/peract2_test.zip
+wget https://huggingface.co/katefgroup/3d_flowmatch_actor/resolve/main/peract2_test.zip
 unzip peract2_test.zip
 rm peract2_test.zip
 cd "$CURR_DIR"
