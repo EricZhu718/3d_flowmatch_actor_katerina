@@ -2,7 +2,7 @@
 By [Nikolaos Gkanatsios*](https://nickgkan.github.io/), [Jiahe Xu*](https://github.com/JiaheXu), [Matthew Bronars](https://mbronars.github.io/), [Arsalan Mousavian](https://cs.gmu.edu/~amousavi/), [Tsung-Wei Ke](https://twke18.github.io/) and [Katerina Fragkiadaki](https://www.cs.cmu.edu/~katef/)
 
 
-Official implementation of ["3D FlowMatch Actor: Unified 3D Policy for Single- and Dual-Arm Manipulation"](arxiv_link).
+Official implementation of ["3D FlowMatch Actor: Unified 3D Policy for Single- and Dual-Arm Manipulation"](https://arxiv.org/abs/2508.11002).
 
 This code base also includes a faster re-implementation of [3D Diffuser Actor](https://arxiv.org/abs/2402.10885).
 
@@ -172,7 +172,7 @@ As a unimanual policy, 3DFA matches the performance of 3DDA while being much fas
 Combining the above may allow for training 3DFA/3DDA in less than 6 hours, however the performance may be a bit lower. We have not thoroughly ablated all these tradeoffs. In the paper we report the conservative runtime of the model that achieves the SOTA performance.
 
 ## Citation
-If you find this code useful for your research, please consider citing our paper ["3D FlowMatch Actor: Unified 3D Policy for Single- and Dual-Arm Manipulation"](arxiv_link).
+If you find this code useful for your research, please consider citing our paper ["3D FlowMatch Actor: Unified 3D Policy for Single- and Dual-Arm Manipulation"](https://arxiv.org/abs/2508.11002).
 ```
 @article{3d_flowmatch_actor,
   author = {Gkanatsios, Nikolaos and Xu, Jiahe and Bronars, Matthew and Mousavian, Arsalan and Ke, Tsung-Wei and Fragkiadaki, Katerina},
