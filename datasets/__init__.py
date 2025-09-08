@@ -3,7 +3,8 @@ from .rlbench import (
     Peract2SingleCamDataset,
     PeractDataset,
     PeractTwoCamDataset,
-    HiveformerDataset
+    HiveformerDataset,
+    EgoDexDataset
 )
 
 
@@ -14,7 +15,8 @@ def fetch_dataset_class(dataset_name):
         "Peract2_3dfront": Peract2SingleCamDataset,
         "Peract": PeractDataset,
         "PeractTwoCam": PeractTwoCamDataset,
-        "HiveformerRLBench": HiveformerDataset
+        "HiveformerRLBench": HiveformerDataset,
+        "CustomEgoDexDataset" : EgoDexDataset
     }
     
     if dataset_name not in dataset_classes:
